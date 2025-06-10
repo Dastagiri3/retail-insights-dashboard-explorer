@@ -12,40 +12,45 @@ import {
 } from "@/components/ui/sidebar";
 import { BarChart3, TrendingUp, Users, Package, MapPin, Calendar } from "lucide-react";
 
+interface DashboardSidebarProps {
+  activeSection: string;
+  setActiveSection: (section: string) => void;
+}
+
 const menuItems = [
   {
     title: "Overview",
     icon: BarChart3,
-    url: "#overview",
+    key: "overview",
   },
   {
     title: "Sales Trends",
     icon: TrendingUp,
-    url: "#trends",
+    key: "trends",
   },
   {
     title: "Products",
     icon: Package,
-    url: "#products",
+    key: "products",
   },
   {
     title: "Customers",
     icon: Users,
-    url: "#customers",
+    key: "customers",
   },
   {
     title: "Regions",
     icon: MapPin,
-    url: "#regions",
+    key: "regions",
   },
   {
     title: "Reports",
     icon: Calendar,
-    url: "#reports",
+    key: "reports",
   },
 ];
 
-export function DashboardSidebar() {
+export function DashboardSidebar({ activeSection, setActiveSection }: DashboardSidebarProps) {
   return (
     <Sidebar className="border-r border-border">
       <SidebarHeader className="p-6">
@@ -59,11 +64,13 @@ export function DashboardSidebar() {
             <SidebarMenu>
               {menuItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <a href={item.url} className="flex items-center gap-3">
-                      <item.icon className="h-4 w-4" />
-                      <span>{item.title}</span>
-                    </a>
+                  <SidebarMenuButton 
+                    onClick={() => setActiveSection(item.key)}
+                    isActive={activeSection === item.key}
+                    className="flex items-center gap-3 w-full"
+                  >
+                    <item.icon className="h-4 w-4" />
+                    <span>{item.title}</span>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
