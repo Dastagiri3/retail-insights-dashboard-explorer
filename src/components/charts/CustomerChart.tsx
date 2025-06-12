@@ -52,16 +52,16 @@ export function CustomerChart({ dateRange, region, category }: CustomerChartProp
             type="monotone" 
             dataKey="returningCustomers" 
             stackId="1"
-            stroke="hsl(var(--primary))" 
-            fill="hsl(var(--primary))"
+            stroke="#3B82F6" 
+            fill="#3B82F6"
             fillOpacity={0.6}
           />
           <Area 
             type="monotone" 
             dataKey="newCustomers" 
             stackId="1"
-            stroke="hsl(var(--secondary))" 
-            fill="hsl(var(--secondary))"
+            stroke="#10B981" 
+            fill="#10B981"
             fillOpacity={0.8}
           />
         </AreaChart>

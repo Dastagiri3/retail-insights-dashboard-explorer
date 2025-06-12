@@ -15,19 +15,22 @@ export function CustomersSection({ dateRange, region, category }: CustomersSecti
       title: "Total Customers",
       value: "12,847",
       change: "+5.7%",
-      icon: Users
+      icon: Users,
+      color: "text-blue-600"
     },
     {
       title: "New Customers",
       value: "2,456",
       change: "+12.3%",
-      icon: UserPlus
+      icon: UserPlus,
+      color: "text-green-600"
     },
     {
       title: "Retention Rate",
       value: "78.5%",
       change: "+2.1%",
-      icon: Repeat
+      icon: Repeat,
+      color: "text-orange-600"
     }
   ];
 
@@ -45,7 +48,7 @@ export function CustomersSection({ dateRange, region, category }: CustomersSecti
           <Card key={index}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">{metric.title}</CardTitle>
-              <metric.icon className="h-4 w-4 text-primary" />
+              <metric.icon className={`h-4 w-4 ${metric.color}`} />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{metric.value}</div>
@@ -58,9 +61,22 @@ export function CustomersSection({ dateRange, region, category }: CustomersSecti
       <Card>
         <CardHeader>
           <CardTitle>Customer Acquisition Trends</CardTitle>
+          <p className="text-sm text-muted-foreground">
+            Monthly breakdown of new vs returning customers with enhanced color visualization
+          </p>
         </CardHeader>
         <CardContent>
           <CustomerChart dateRange={dateRange} region={region} category={category} />
+          <div className="flex justify-center mt-4 space-x-6">
+            <div className="flex items-center space-x-2">
+              <div className="w-3 h-3 bg-blue-500 rounded"></div>
+              <span className="text-sm text-muted-foreground">Returning Customers</span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <div className="w-3 h-3 bg-green-500 rounded"></div>
+              <span className="text-sm text-muted-foreground">New Customers</span>
+            </div>
+          </div>
         </CardContent>
       </Card>
     </div>
