@@ -69,7 +69,7 @@ export function RegionsSection({ dateRange, region, category }: RegionsSectionPr
               <div className={`w-3 h-3 rounded-full ${region.color}`}></div>
             </CardHeader>
             <CardContent>
-              <div className="text-xl font-bold">${region.revenue.toLocaleString()}</div>
+              <div className="text-xl font-bold">₹{region.revenue.toLocaleString()}</div>
               <p className="text-xs text-green-600">{region.growth} growth</p>
             </CardContent>
           </Card>

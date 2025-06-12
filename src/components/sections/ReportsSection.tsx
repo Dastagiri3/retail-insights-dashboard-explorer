@@ -2,6 +2,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { FileText, Download, Calendar, BarChart3 } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 interface ReportsSectionProps {
   dateRange: string;
@@ -10,32 +11,118 @@ interface ReportsSectionProps {
 }
 
 export function ReportsSection({ dateRange, region, category }: ReportsSectionProps) {
+  const { toast } = useToast();
+
   const reports = [
     {
       title: "Monthly Sales Report",
       description: "Comprehensive monthly sales analysis with trends",
       lastGenerated: "2 hours ago",
-      icon: FileText
+      icon: FileText,
+      filename: "monthly_sales_report.pdf"
     },
     {
-      title: "Product Performance Report",
+      title: "Product Performance Report", 
       description: "Detailed product category and individual item analysis",
       lastGenerated: "1 day ago",
-      icon: BarChart3
+      icon: BarChart3,
+      filename: "product_performance_report.pdf"
     },
     {
       title: "Regional Analysis Report",
       description: "Geographic performance breakdown and insights",
-      lastGenerated: "3 days ago",
-      icon: Calendar
+      lastGenerated: "3 days ago", 
+      icon: Calendar,
+      filename: "regional_analysis_report.pdf"
     },
     {
       title: "Customer Insights Report",
       description: "Customer behavior and segmentation analysis",
       lastGenerated: "5 days ago",
-      icon: FileText
+      icon: FileText,
+      filename: "customer_insights_report.pdf"
     }
   ];
+
+  const handleDownload = (reportTitle: string, filename: string) => {
+    // Simulate download functionality
+    const link = document.createElement('a');
+    link.href = '#'; // In a real app, this would be the actual file URL
+    link.download = filename;
+    
+    // Create mock report content
+    const reportData = generateReportData(reportTitle);
+    const blob = new Blob([reportData], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    link.href = url;
+    
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+
+    toast({
+      title: "Download Started",
+      description: `${reportTitle} is being downloaded`,
+      duration: 3000,
+    });
+  };
+
+  const generateReportData = (reportTitle: string) => {
+    const currentDate = new Date().toLocaleDateString();
+    return `
+${reportTitle}
+Generated on: ${currentDate}
+Period: ${dateRange}
+Region: ${region === 'all' ? 'All Regions' : region}
+Category: ${category === 'all' ? 'All Categories' : category}
+
+EXECUTIVE SUMMARY
+================
+This report provides comprehensive analysis of sales performance based on the selected filters.
+
+KEY METRICS
+===========
+- Total Revenue: ₹2,45,67,890
+- Total Orders: 15,280
+- Average Order Value: ₹1,608
+- Customer Growth: +12%
+
+INSIGHTS
+========
+- Electronics category shows strongest growth at 15%
+- North region leading in revenue generation
+- Customer retention improved by 8% this quarter
+
+RECOMMENDATIONS
+===============
+1. Increase inventory for top-performing products
+2. Focus marketing efforts on underperforming regions
+3. Implement customer loyalty programs
+
+For detailed analysis and charts, please refer to the dashboard.
+    `;
+  };
+
+  const handleCustomReportGeneration = () => {
+    const customReportData = generateReportData("Custom Report");
+    const blob = new Blob([customReportData], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `custom_report_${dateRange}_${region}_${category}.txt`;
+    
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+
+    toast({
+      title: "Custom Report Generated",
+      description: "Your custom report has been generated and downloaded",
+      duration: 3000,
+    });
+  };
 
   return (
     <div className="space-y-6">
@@ -61,7 +148,11 @@ export function ReportsSection({ dateRange, region, category }: ReportsSectionPr
                 <span className="text-sm text-muted-foreground">
                   Last generated: {report.lastGenerated}
                 </span>
-                <Button variant="outline" size="sm">
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  onClick={() => handleDownload(report.title, report.filename)}
+                >
                   <Download className="h-4 w-4 mr-2" />
                   Download
                 </Button>
@@ -85,7 +176,10 @@ export function ReportsSection({ dateRange, region, category }: ReportsSectionPr
               <span className="px-2 py-1 bg-muted rounded text-sm">Region: {region}</span>
               <span className="px-2 py-1 bg-muted rounded text-sm">Category: {category}</span>
             </div>
-            <Button className="w-full md:w-auto">
+            <Button 
+              className="w-full md:w-auto"
+              onClick={handleCustomReportGeneration}
+            >
               <FileText className="h-4 w-4 mr-2" />
               Generate Custom Report
             </Button>

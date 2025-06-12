@@ -9,10 +9,10 @@ interface RegionalChartProps {
 export function RegionalChart({ dateRange, category }: RegionalChartProps) {
   const getRegionalData = () => {
     const baseData = [
-      { region: 'North', revenue: 856000, customers: 3420, orders: 4850 },
-      { region: 'South', revenue: 742000, customers: 2890, orders: 4120 },
-      { region: 'East', revenue: 689000, customers: 2650, orders: 3890 },
-      { region: 'West', revenue: 598000, customers: 2340, orders: 3420 }
+      { region: 'North', revenue: 856000, customers: 3420, orders: 4850, color: '#3B82F6' },
+      { region: 'South', revenue: 742000, customers: 2890, orders: 4120, color: '#10B981' },
+      { region: 'East', revenue: 689000, customers: 2650, orders: 3890, color: '#F59E0B' },
+      { region: 'West', revenue: 598000, customers: 2340, orders: 3420, color: '#EF4444' }
     ];
 
     // Adjust data based on date range
@@ -63,7 +63,7 @@ export function RegionalChart({ dateRange, category }: RegionalChartProps) {
             <YAxis 
               className="text-muted-foreground"
               tick={{ fontSize: 12 }}
-              tickFormatter={(value) => `$${(value/1000).toFixed(0)}k`}
+              tickFormatter={(value) => `₹${(value/1000).toFixed(0)}k`}
             />
             <Tooltip 
               contentStyle={{
@@ -72,14 +72,14 @@ export function RegionalChart({ dateRange, category }: RegionalChartProps) {
                 borderRadius: '6px'
               }}
               formatter={(value, name) => [
-                name === 'revenue' ? `$${Number(value).toLocaleString()}` : Number(value).toLocaleString(),
+                name === 'revenue' ? `₹${Number(value).toLocaleString()}` : Number(value).toLocaleString(),
                 name === 'revenue' ? 'Revenue' : name === 'customers' ? 'Customers' : 'Orders'
               ]}
             />
             <Legend />
-            <Bar dataKey="revenue" fill="hsl(var(--primary))" name="Revenue" />
-            <Bar dataKey="customers" fill="hsl(var(--secondary))" name="Customers" />
-            <Bar dataKey="orders" fill="hsl(var(--accent))" name="Orders" />
+            <Bar dataKey="revenue" fill="#3B82F6" name="Revenue" />
+            <Bar dataKey="customers" fill="#10B981" name="Customers" />
+            <Bar dataKey="orders" fill="#F59E0B" name="Orders" />
           </BarChart>
         </ResponsiveContainer>
       </div>
