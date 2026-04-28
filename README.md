@@ -1,9 +1,3 @@
-# Welcome to your Project Insights Dashboard 
-
-## Project info
-
-**URL**: https://lovable.dev/projects/dd14ccfd-a987-4708-9611-c18400169362
-
 ## How can I edit this code?
 
 There are several ways of editing your application.
